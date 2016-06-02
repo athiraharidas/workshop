@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'register',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -52,21 +53,7 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'workshop.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
+
 
 WSGI_APPLICATION = 'workshop.wsgi.application'
 
@@ -119,3 +106,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (MEDIA_ROOT,)
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
