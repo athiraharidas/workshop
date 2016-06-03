@@ -3,6 +3,8 @@ from django.views.generic import TemplateView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 from django.views.generic.edit import FormView, UpdateView
 from django.core.urlresolvers import reverse_lazy
+from register.forms import *
+
 
 # Create your viewsfrom django.core.urlresolvers import reverse_lazy here.
 class Home(TemplateView):
@@ -11,7 +13,7 @@ class Home(TemplateView):
 
 
 class UserRegistrationView(AnonymousRequiredMixin, FormView):
-    template_name = "register/user/register_user.html"
+    template_name = "register_user.html"
     authenticated_redirect_url = reverse_lazy(u"home")
     form_class = UserRegistrationForm
     success_url = '/register/user/success/'

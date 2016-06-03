@@ -1,25 +1,18 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from bootstrap3_datetime.widgets import DateTimePicker
-from captcha.fields import ReCaptchaField
-from registration.models import *
+from register.models import *
 from django.forms.models import ModelForm
 from django.contrib import admin
-from ckeditor.widgets import CKEditorWidget
 
 
 user_widgets = {
-    'user_first_name': forms.TextInput(attrs={'placeholder':_('First Name'), 'required': True}),
-    'user_dob': DateTimePicker(options={"getUTCDate": True, "pickTime": True,
-                                              "date":"fa fa-calendar", "viewMode":'years',
-                                              "format":'DD/MM/YYYY'},
-                                     attrs={'placeholder':_('DD/MM/YYYY'), 'required': True, 'class':'datepicker'}),
-    'user_last_name': forms.TextInput(attrs={'placeholder':_('Last Name'),
-                                             'required': True}),
-    'email': forms.TextInput(attrs={'placeholder':_('Your Email address'),
-                                             'required': True}),
-    'username': forms.TextInput(attrs={'placeholder':_('Username'),
-                                             'required': True}),
+   'user_first_name': forms.TextInput(attrs={'placeholder':_('First Name'), 'required': True}),
+     'user_last_name': forms.TextInput(attrs={'placeholder':_('Last Name'),
+                                            'required': True}),
+   'email': forms.TextInput(attrs={'placeholder':_('Your Email address'),
+                                            'required': True}),
+   'username': forms.TextInput(attrs={'placeholder':_('Username'),
+                                            'required': True}),
 }
 
 user_extra_widgets = {
@@ -59,7 +52,7 @@ class UserRegistrationForm(ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.exclude(pk=self.instance.pk).filter(email=email).exists():
-            raise forms.ValidationError(_('Email "%s" is already in use.') % email)
+            raise forms.ValidationError(_('Email "%s" is already ifrom ckeditor.widgets import CKEditorWidgetn use.') % email)
         return email
 
 
@@ -80,33 +73,3 @@ class UserRegistrationForm(ModelForm):
 
 
 
-course_fields = ['course_name', 'course_bio', 'course_language', 'course_difficulty',
-                  'course_fees']
-course_widgets = {
-    'course_name'    : forms.TextInput(attrs={'placeholder':_('Course Name'), 'required': True}),
-    'course_bio'    :  CKEditorWidget(),
-    'course_fees' : forms.TextInput(attrs={'placeholder':_('Course fees'), 'required': True}),
-}
-
-class CourseRegistrationForm(ModelForm):
-    class Meta:
-        model = Course
-        fields = course_fields
-        widgets = course_widgets
-        exclude = ['course_user']
-
-
-course_module_fields = ['module_name', 'module_description', 'module_duration']
-course_module_widgets = {
-    'module_name'    : forms.TextInput(attrs={'placeholder':_('Module Name'), 'required': True}),
-    'module_description'    :  CKEditorWidget(),
-    'module_duration' : forms.TextInput(attrs={'placeholder':_('Duration of module'), 'required': True}),
-}
-
-
-class ModuleAddForm(ModelForm):
-    class Meta:
-        model = CourseModules
-        fields = course_module_fields
-        widgets = course_module_widgets
-        exclude = ['course']
