@@ -15,12 +15,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from register import urls as reg_urls
 from register.views import *
-
-
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^$', Home.as_view(), name='home'),
-
-    url(r'^register/', include(reg_urls), name='register'),
-
+    url(r'^register/$', include(reg_urls)),
+    url(r'^user/login/$',
+        anonymous_required(auth_views.login),
+        {'template_name': 'login.html'},
+        name='login')
 ]
