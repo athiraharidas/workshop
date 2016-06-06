@@ -93,12 +93,42 @@
     </div>
     <div class="col-md-6"></div>
 </div>
+<div class="col-md-8 col-md-offset-2 well">
+    <table class="table table-hover table-bordered table-responsive">
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Manufacturer
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in object_list %}
+            <tr>
+                <td> {{ item.name }} </td>
+                <td> {{ item.discription }}</td>
+                <td> {{ item.manufacturer }}</td>
+                <td> {{ item.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 {%  if reqest.user.is_anonymous %}
     NOTHING HERE:
 {%  else %}
     <div class="col-md-6 col-md-offset-5" style="padding-top:10%;">
         <a href="{% url 'add_chocolate' %}">
-        <button class="btn btn-primary">Add a chocolate</button>
+            <button class="btn btn-primary">Add a chocolate</button>
         </a>
     </div>
 {%  endif %}

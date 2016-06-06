@@ -1,10 +1,17 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from register.forms import *
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 from workshop import settings
+from register.models import *
+
+class Home(ListView):
+    template_name = "index.html"
+
+    def get_queryset(self):
+        return Chocolate.objects.all()
 
 class CurrentUserMixin(object):
     model = User
@@ -26,8 +33,7 @@ def anonymous_required(func):
     return as_view
 
 
-class Home(TemplateView):
-    template_name = "index.html"
+
 
 
 class UserRegistrationView(AnonymousRequiredMixin, FormView):
@@ -40,10 +46,11 @@ class UserRegistrationView(AnonymousRequiredMixin, FormView):
         form.save()
         return FormView.form_valid(self, form)
 
+
 class AddChocolatView(FormView):
     template_name="add_chocolate.html"
     form_class=ChocolateAddForm
-    sucess_url='/register/chocolate/sucess'
+    success_url='/register/user/success'
 
     def form_valid(self, form):
         form.save()
