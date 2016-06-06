@@ -19,7 +19,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^$', Home.as_view(), name='home'),
-    url(r'^register/$', include(reg_urls)),
+    url(r'^register/', include(reg_urls)),
     url(r'^user/login/$',
         anonymous_required(auth_views.login),
         {'template_name': 'login.html'},

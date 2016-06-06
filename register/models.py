@@ -1,6 +1,4 @@
-from __future__ import unicode_literals
 
-from django.db import models
 
 # Create your models here.
 
@@ -40,9 +38,9 @@ class User(AbstractBaseUser):
     """
     user_id = models.AutoField(primary_key=True)
     user_first_name = models.CharField(_('First Name'), max_length=32, blank=True, null=True,
-                                  validators=[RegexValidator(regex='^[A-Za-z]*$')])
+                                       validators=[RegexValidator(regex='^[A-Za-z]*$')])
     user_last_name = models.CharField(_('Last Name'), max_length=32, blank=True, null=True,
-                                    validators=[RegexValidator(regex='^[A-Za-z]*$')])
+                                      validators=[RegexValidator(regex='^[A-Za-z]*$')])
     email = models.EmailField(_('Email'), db_index=True, unique=True)
     user_dob = models.DateField(_('Birth Date'), blank=True, null=True)
     user_gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True, null=True)
@@ -98,3 +96,15 @@ class User(AbstractBaseUser):
 
     def __unicode__(self):
         return self.username
+
+
+chocolate_field = ( 'name','discription','manufacture','price' )
+class Chocolate(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(_('Chocolate Name'),max_length=100,blank=True )
+    discription = models.CharField(_('Chocolate Discription'),max_length=1000,blank=True )
+    manufacturer = models.CharField(_('Chocolate Manufacturer'),max_length=100,blank=True )
+    price = models.IntegerField(_('Chocolate Price'),
+                                validators=[MaxValueValidator(1000), MinValueValidator(0)],
+                                help_text=_('4 digits maximum'), blank=True, null=True)
+
