@@ -5,8 +5,10 @@
     <link rel="stylesheet" href="{%  static 'css/bootstrap.min.css' %}" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"><!-- Optional theme -->
     <link rel="stylesheet" href="{%  static 'css/bootstrap-theme.min.css' %}" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"><!-- Latest compiled and minified JavaScript -->
     <script type="text/javascript" src="{%  static 'js/jquery-2.1.1.js' %}"></script>
-    <script type="text/javascript" src="{%  static 'js/bootstrap.min.js' %}"></script></head>
-<body>
+    <script type="text/javascript" src="{%  static 'js/bootstrap.min.js' %}"></script>
+</head>
+
+<body style="background-image: url({% static "images/choco.jpeg" %});background-repeat:no-repeat;background-size:100%;height: 140px;display:block;padding:0 !important;margin:0;" >
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,93 +47,75 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'register_user' %}">sign up</a></li>
-                        <li><a href="{%  url 'login' %}">LogIn</a></li>
-
+                        {% if request.user.is_anonymous %}
+                            <li><a href="{% url 'register_user'%}">SIGN UP</a></li>
+                            <li><a href="{% url 'login' %}">SIGN IN</a></li>
+                        {% else %}
+                            <li>
+                                <div class="btn-group">
+                            <li><a href="{% url 'logout' %}">logout</a></li>
+                            <li><a href="{% url 'user_profile_update' %}">Edit Profile</a></li>
+                            <a class="btn-new btn-nav btn-white" data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>
+                            {% if request.user.user_first_name %}
+                                {{ request.user.user_first_name }}
+                            {% elif request.user.username %}
+                                {{ request.user.username }}
+                            {% else %}
+                                {{ request.user.email }}
+                            {% endif %}
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading" ><b>Sign In</b></div>
-            <div class="panel-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Remember me
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">Sign in</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="panel-footer"><a href="http://www.google.co.in">If You Need Help Click Here</a></div>
+            <div class="col-md-6"></div>
         </div>
+        <div class="col-md-8 col-md-offset-2 well">
+            <table class="table table-hover table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Manufacturer
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        more
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in object_list %}
+                    <tr>
+                        <td> {{ item.name }} </td>
+                        <td> {{ item.discription }}</td>
+                        <td> {{ item.manufacturer }}</td>
+                        <td> {{ item.price }}</td>
+                        <td> <a href="{% url 'chocolate_info' item.id %}">Info</a> </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {%  if reqest.user.is_anonymous %}
+            NOTHING HERE:
+        {%  else %}
+            <div class="col-md-6 col-md-offset-5" style="padding-top:10%;">
+                <a href="{% url 'add_chocolate' %}">
+                    <button class="btn btn-primary">Add a chocolate</button>
+                </a>
+            </div>
+        {%  endif %}
     </div>
-    <div class="col-md-6"></div>
-</div>
-<div class="col-md-8 col-md-offset-2 well">
-    <table class="table table-hover table-bordered table-responsive">
-        <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Manufacturer
-            </th>
-            <th>
-                Price
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in object_list %}
-            <tr>
-                <td> {{ item.name }} </td>
-                <td> {{ item.discription }}</td>
-                <td> {{ item.manufacturer }}</td>
-                <td> {{ item.price }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-{%  if reqest.user.is_anonymous %}
-    NOTHING HERE:
-{%  else %}
-    <div class="col-md-6 col-md-offset-5" style="padding-top:10%;">
-        <a href="{% url 'add_chocolate' %}">
-            <button class="btn btn-primary">Add a chocolate</button>
-        </a>
-    </div>
-{%  endif %}
-{<form>}
+</nav>
 </body>
 </html>
+
+
+
