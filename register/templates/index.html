@@ -47,7 +47,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        {% if request.user.is_anonymous %}
+                        {% if user.is_anonymous %}
                             <li><a href="{% url 'register_user'%}">SIGN UP</a></li>
                             <li><a href="{% url 'login' %}">SIGN IN</a></li>
                         {% else %}
@@ -103,7 +103,7 @@
                 </tbody>
             </table>
         </div>
-        {%  if reqest.user.is_anonymous %}
+        {%  if user.is_anonymous %}
             NOTHING HERE:
         {%  else %}
             <div class="col-md-6 col-md-offset-5" style="padding-top:10%;">
